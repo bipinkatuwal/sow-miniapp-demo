@@ -1,7 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import { AppDataSource } from "./config/database";
+import { AppDataSource } from "./config/database.js";
+
+// import routes
+import authRoutes from "./routes/AuthRoute.js";
 
 dotenv.config();
 const app = express();
@@ -10,6 +13,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use("/api/auth", authRoutes);
 
 // Initialize database and start server
 const PORT = process.env.PORT || 5000;
