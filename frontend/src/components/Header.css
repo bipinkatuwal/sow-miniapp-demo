@@ -1,0 +1,365 @@
+.main-header {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+
+/* p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+} */
+
+.header {
+  width: 75%;
+  padding-top: 2.5rem;
+  color: white;
+  margin: auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  display: block;
+}
+
+.menu {
+  display: none;
+}
+
+.navigation-bar {
+  display: flex;
+  align-items: center;
+}
+
+.language-dropdown {
+  display: none;
+}
+
+.language-pc-menu-items {
+  padding-right: 0px;
+}
+.flag-name,
+.pc-menu-items {
+  vertical-align: bottom;
+  color: white;
+}
+.pc-menu-items {
+  color: inherit;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-block;
+  line-height: 18px;
+}
+
+.language-title-box {
+  display: flex;
+  align-items: center;
+}
+
+.language-name {
+  font-weight: 500;
+}
+
+.nav-logo {
+  height: 2rem;
+  margin-top: -0.5rem;
+  max-width: 100%;
+}
+
+.hamburger {
+  color: white;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  cursor: pointer;
+}
+
+.drop-down {
+  height: 0px;
+  opacity: 0;
+  margin-top: 3rem;
+  top: 0px;
+  display: none;
+  left: 0rem;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out,
+    width 0.3s ease-in-out;
+  position: absolute;
+}
+
+.drop-down-container {
+  position: relative;
+  z-index: 30;
+  height: 100%;
+}
+
+.drop-down-item {
+  font-size: 15px;
+  font-weight: 600;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: block;
+  color: rgba(0, 0, 0, 0.9);
+  color: #000;
+  text-decoration: inherit;
+  height: 65px;
+}
+
+.collectionSpan {
+  font-weight: 600;
+}
+
+.pc-menu {
+  display: block;
+  margin-right: 1rem;
+  line-height: 18px;
+}
+
+.pc-menu-items {
+  color: inherit;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-block;
+  line-height: 18px;
+}
+
+.collectionitem {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.dropdownContainer {
+  justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+}
+
+.language-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: -1px;
+}
+
+.lang-drop-container,
+.dropdownContainer,
+.flag-name {
+  display: flex;
+}
+.lang-drop-container {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.dropdownList {
+  display: none;
+  font-weight: 500;
+  width: max-content;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.9);
+  color: #000;
+  font-size: 15px;
+  position: absolute;
+  right: -13px;
+  z-index: 100;
+  margin-left: -0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 1;
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(17, 17, 17, 0.7),
+    0 4px 6px -4px rgba(34, 34, 34, 0.7);
+}
+
+.drop-down-element {
+  transition-duration: 700ms;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  height: 33px;
+}
+
+.drop-down-lang-name {
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.drop-down-image-div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 26px;
+  margin-left: auto;
+  height: 18px;
+}
+
+.drop-down-image {
+  object-fit: cover;
+  object-position: center center;
+  width: 26px;
+  height: 18px;
+  max-width: 100%;
+  border-radius: 3px;
+}
+
+.drop-down-element {
+  transition-duration: 700ms;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  height: 33px;
+}
+
+.flag-name,
+.pc-menu-items {
+  vertical-align: bottom;
+  color: white;
+}
+.collectionitem {
+  font-weight: 500;
+  font-size: 15px;
+}
+.flag-name {
+  font-size: 15px;
+  height: 18px;
+  position: relative;
+  margin-right: 40px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.icon-flag-nav {
+  object-fit: env();
+  object-position: center center;
+  border-radius: 3px;
+  width: 26px;
+  height: 18px;
+  max-width: 100%;
+  position: absolute;
+  right: 5px;
+  top: -2px;
+  object-fit: cover;
+}
+
+.flag-icon {
+  margin-left: 1rem;
+  margin-top: -5px;
+}
+.drop-down-image {
+  object-fit: cover;
+  object-position: center center;
+  width: 26px;
+  height: 18px;
+  max-width: 100%;
+  border-radius: 3px;
+}
+
+@media (min-width: 900px) {
+  .collectionitem,
+  .dropdownList,
+  .menu-drop-down-item,
+  .language-name {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1269px) and (orientation: landscape) {
+  .collectionitem,
+  .dropdownList,
+  .menu-drop-down-item,
+  .language-name {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1269px) and (orientation: landscape) {
+  .flag-name {
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 1269px) {
+  .drop-down {
+    overflow: hidden;
+    width: 19rem;
+    height: 0px;
+    background-color: white;
+    opacity: 1;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (max-width: 1269px) {
+  .language-dropdown {
+    display: block;
+  }
+}
+
+@media (max-width: 1269px) {
+  .menu {
+    display: block;
+  }
+}
+
+@media (max-width: 1269px) {
+  .logo,
+  .pc-menu,
+  .lang-drop {
+    display: none;
+  }
+}
+
+@media (min-width: 1270px) and (max-width: 1389px) and (orientation: landscape) {
+  .collectionitem,
+  .dropdownList,
+  .menu-drop-down-item,
+  .language-name {
+    font-size: 15px;
+  }
+}
