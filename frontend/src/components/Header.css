@@ -129,7 +129,7 @@ img {
   opacity: 0;
   margin-top: 3rem;
   top: 0px;
-  display: none;
+  display: block;
   left: 0rem;
   transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out,
     width 0.3s ease-in-out;
@@ -309,7 +309,7 @@ img {
 
 @media (max-width: 1269px) {
   .drop-down {
-    /* overflow: hidden; */
+    overflow: hidden;
     width: 19rem;
     height: auto;
     background-color: white;

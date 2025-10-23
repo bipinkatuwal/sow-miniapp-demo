@@ -1,42 +1,43 @@
 import { fileURLToPath } from "url";
 import { existsSync, readFileSync } from "fs";
 import path, { dirname } from "path";
+import { AppDataSource } from "../config/database.js";
+import { Translation } from "../entities/Translation.js";
 
 export const getTranslations = async (req, res) => {
   try {
     const { lang } = req.params;
 
-    // validate language
-    const validLanguage = ["en", "sv"];
-
-    if (!validLanguage.includes(lang)) {
+    if (!lang) {
       return res.status(400).json({
-        successs: false,
-        message: `Language ${lang} is not supported. Available: ${validLanguage.join(
-          ", "
-        )}`,
+        success: false,
+        message: "Language parameter is required",
       });
     }
 
-    // read JSON file
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    const filePath = path.join(__dirname, `../locales/${lang}.json`);
+    const translationsRepository = AppDataSource.getRepository(Translation);
 
-    // check if file exsits
-    if (!existsSync(filePath)) {
-      return res.status(404).json({
-        successs: false,
-        message: `Translation file for ${lang} not found`,
-      });
+    const translations = await translationsRepository.find({
+      where: {
+        languageCode: lang,
+      },
+    });
+
+    if (!translations.length) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No translations found" });
     }
 
-    // read and parse JSON file
-    const translations = JSON.parse(readFileSync(filePath, "utf-8"));
+    const translationsObj = {};
+    translations.forEach((t) => {
+      translationsObj[t.key] = t.text;
+    });
 
     res.json({
+      success: true,
       language: lang,
-      translations,
+      translations: translationsObj,
     });
   } catch (error) {
     console.error("Get translations error:", error);

@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/locals", languageRoutes);
+app.use("/api/translations", languageRoutes);
 app.use("/api/products", productRoutes);
 
 // Initialize database and start server

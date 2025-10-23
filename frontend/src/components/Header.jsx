@@ -8,6 +8,7 @@ const Header = () => {
     const { t, language, changeLanguage } = useLanguage();
     const [lang, setLang] = useState('en');
     const [openLangDropDown, setOpenLangDropDown] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
 
     useEffect(() => {
         changeLanguage(lang)
@@ -22,49 +23,52 @@ const Header = () => {
                             <img src="/assets/logo.png" alt="Logo" class='nav-logo' />
                         </Link>
                     </div>
-                    <div class="menu">
+                    <div class="menu" onClick={() => setOpenMenu(open => !open)}>
                         <IoIosMenu class='hamburger' />
                     </div>
                     <div class="navigation-bar">
-                        <div class="drop-down">
+                        <div class="drop-down" style={{
+                            height:
+                                openMenu ? "325px" : 0
+                        }}>
                             <div class="drop-down-container">
                                 <a href="https://www.123fakturera.se/index.html" class='drop-down-item'>
                                     <p class='collectionSpan collectionitem'>
-                                        {t('navigation').home}
+                                        {t('navigation.home')}
                                     </p>
                                 </a>
                                 <a href="https://www.123fakturera.se/bestall.html" class='drop-down-item'>
                                     <p class='collectionSpan collectionItem'>
-                                        {t('navigation').order}
+                                        {t('navigation.order')}
                                     </p>
                                 </a>
                                 <a href="https://www.123fakturera.se/kunder.html" class='drop-down-item'>
-                                    <p class='collectionSpan collectionItem'>{t('navigation').our_customer}</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation.our_customer')}</p>
                                 </a>
                                 <a href="https://www.123fakturera.se/omoss.html" class='drop-down-item'>
-                                    <p class='collectionSpan collectionItem'>{t('navigation').about_us}</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation.about_us')}</p>
                                 </a>
                                 <a href="https://www.123fakturera.se/kontaktaoss.html" class='drop-down-item'>
-                                    <p class='collectionSpan collectionItem'>{t('navigation').contact_us}</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation.contact_us')}</p>
                                 </a>
                             </div>
                         </div>
                         <div class="pc-menu">
                             <a href="https://www.123fakturera.se/index.html" class='pc-menu-items'>
-                                <p class='collectionitem collectionSpan'>{t('navigation').home}</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation.home')}</p>
                             </a>
                             <a href="https://www.123fakturera.se/bestall.html" class='pc-menu-items'>
-                                <p class='collectionitem collectionSpan'>{t('navigation').order}</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation.order')}</p>
                             </a>
 
                             <a href="https://www.123fakturera.se/kunder.html" class='pc-menu-items'>
-                                <p class='collectionitem collectionSpan'>{t('navigation').our_customer}</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation.our_customer')}</p>
                             </a>
                             <a href="https://www.123fakturera.se/omoss.html" class='pc-menu-items'>
-                                <p class='collectionitem collectionSpan'>{t('navigation').about_us}</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation.about_us')}</p>
                             </a>
                             <a href="https://www.123fakturera.se/kontaktaoss.html" class='pc-menu-items'>
-                                <p class='collectionitem collectionSpan'>{t('navigation').contact_us}</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation.contact_us')}</p>
                             </a>
                             <a href="#" class='pc-menu-items language-pc-menu-items'>
                                 <div>

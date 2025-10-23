@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router'
 import Login from './pages/Login'
+import Terms from './pages/Terms'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
 
       {/* Login page */}
       <Route path="/login" element={<Login />} />
+      <Route path="/terms" element={<Terms />} />
     </Routes>
   )
 }

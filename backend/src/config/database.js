@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { DataSource } from "typeorm";
 import { User } from "../entities/User.js";
 import { Product } from "../entities/Product.js";
+import { Translation } from "../entities/Translation.js";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   url: process.env.DATABASE_URL,
   synchronize: true, // Auto-create tables (dev only!)
   // logging: true, // See SQL queries in console
-  entities: [User, Product],
+  entities: [User, Product, Translation],
   ssl: true, // Enable SSL globally
   extra: {
     ssl: {

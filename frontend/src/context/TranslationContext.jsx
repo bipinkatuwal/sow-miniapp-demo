@@ -34,7 +34,7 @@ export const TranslationProvider = ({ children, defaultLanguage = "en" }) => {
     const fetchLanguageData = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/locals/${language}`
+          `${import.meta.env.VITE_API_URL}/translations/${language}`
         );
         const data = await response.json();
 
@@ -61,7 +61,7 @@ export const TranslationProvider = ({ children, defaultLanguage = "en" }) => {
   const changeLanguage = async (lang) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/locals/${lang}`
+        `${import.meta.env.VITE_API_URL}/translations/${lang}`
       );
       const data = await response.json();
       const serverTranslations = data.translations || {};

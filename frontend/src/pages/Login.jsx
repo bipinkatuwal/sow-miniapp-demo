@@ -1,12 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import "./Login.css";
 import Footer from '../components/Footer';
 import { useLanguage } from '../context/TranslationContext';
+import { useAuth } from '../context/AuthContext';
 
 
 const Login = () => {
     const { t } = useLanguage();
+    const {
+        loading,
+        error,
+        login
+    } = useAuth();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState(null);
+    const [passwordError, setPasswordError] = useState(null);
+
+    function handleLoginForm(e) {
+        e.preventDefault()
+
+        if (!email) {
+            setEmailError(t("login.field_empty"))
+        }
+
+        if (!password) {
+            setPasswordError(t('login.password_required'))
+        }
+
+        login(email, password);
+    }
+
     return (
         <div class='login-container'>
             <div class="background-container">
@@ -16,33 +41,56 @@ const Login = () => {
             <div class="content">
                 <div class="login-content-root">
                     <div class="back-login">
-                        <form noValidate="" autoComplete="off">
-                            <h2 class="login-heading">{t('login').login}</h2>
+                        <form onSubmit={handleLoginForm} autoComplete="off">
+                            <h2 class="login-heading">{t('login.login')}</h2>
                             <section class="login-section">
                                 <div class="login-email">
-                                    <div><label htmlFor="" class="login-email-label">{t('login').enter_email}</label></div>
-                                    <input class="login-input" type="email" id="email" required="" name="username" value="" autoComplete="on" placeholder={t('login').email} />
+                                    <div>
+                                        <label htmlFor="email" class="login-email-label">{t('login.enter_email')}</label>
+                                    </div>
+                                    <input
+                                        class="login-input"
+                                        type="email"
+                                        id="email"
+                                        required={true}
+                                        name="email" value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        autoComplete="on" placeholder={t('login.email')} />
                                 </div>
-                                <span class="email-error-span error-span"></span>
+                                {emailError && <span class="email-error-span error-span">
+                                    {emailError}
+                                </span>}
                                 <div class="login-password">
                                     <div>
-                                        <label htmlFor="" class="login-password-label">{t('login').enter_password}</label>
+                                        <label htmlFor="" class="login-password-label">{t('login.enter_password')}</label>
                                     </div>
                                     <div class="password-input-div">
-                                        <input class="login-input" type="password" id="password" required="" name="password" value="" placeholder={t('login').password} />
+                                        <input
+                                            class="login-input" type="password" id="password"
+                                            required={true}
+                                            name="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder={t('login.password')} />
                                         <img id="show-password-img" src="/assets/show_password.png" alt="" />
                                     </div>
                                 </div>
-                                <span class="password-error-span error-span"></span>
+                                {
+                                    passwordError && <span class="password-error-span error-span">
+                                        {passwordError}
+                                    </span>
+                                }
                                 <section class="invalid-credentials"></section>
                             </section>
                             <div class="Login-Button-div">
-                                <button class="Login-Button" type="submit">{t('login').login}</button>
+                                <button class="Login-Button" type="submit">
+                                    {loading ? "Logging in..." : t('login.login')}
+                                </button>
                             </div>
                         </form>
                         <section class="gotodifferntlink">
-                            <a href="/register" class="login-new-customer">{t('login').new_customer}</a>
-                            <a id="forgot-password-link" class="login-forgot-password" href="/forgot-password">{t('login').get_password}</a>
+                            <a href="/register" class="login-new-customer">{t('login.new_customer')}</a>
+                            <a id="forgot-password-link" class="login-forgot-password" href="/forgot-password">{t('login.get_password')}</a>
                         </section>
                     </div>
                 </div>
