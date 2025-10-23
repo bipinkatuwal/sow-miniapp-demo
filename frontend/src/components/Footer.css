@@ -12,6 +12,11 @@
   z-index: 20;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 .footer-div {
   margin-top: auto;
   position: relative;

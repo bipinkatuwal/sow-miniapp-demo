@@ -23,6 +23,33 @@ img {
   unicode-bidi: isolate;
 } */
 
+.dropdownList {
+  display: none;
+  font-weight: 500;
+  width: max-content;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.9);
+  color: #000;
+  font-size: 15px;
+  position: absolute;
+  right: -13px;
+  z-index: 99999;
+  margin-left: -0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 1;
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(17, 17, 17, 0.7),
+    0 4px 6px -4px rgba(34, 34, 34, 0.7);
+}
+
 .header {
   width: 75%;
   padding-top: 2.5rem;
@@ -52,16 +79,9 @@ img {
 
 .language-dropdown {
   display: none;
+  position: relative;
 }
 
-.language-pc-menu-items {
-  padding-right: 0px;
-}
-.flag-name,
-.pc-menu-items {
-  vertical-align: bottom;
-  color: white;
-}
 .pc-menu-items {
   color: inherit;
   padding-left: 1.5rem;
@@ -70,6 +90,16 @@ img {
   font-weight: 600;
   display: inline-block;
   line-height: 18px;
+}
+
+.language-pc-menu-items {
+  padding-right: 0px;
+}
+
+.flag-name,
+.pc-menu-items {
+  vertical-align: bottom;
+  color: white;
 }
 
 .language-title-box {
@@ -126,29 +156,10 @@ img {
   height: 65px;
 }
 
-.collectionSpan {
-  font-weight: 600;
-}
-
 .pc-menu {
   display: block;
   margin-right: 1rem;
   line-height: 18px;
-}
-
-.pc-menu-items {
-  color: inherit;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  font-size: 15px;
-  font-weight: 600;
-  display: inline-block;
-  line-height: 18px;
-}
-
-.collectionitem {
-  font-weight: 500;
-  font-size: 15px;
 }
 
 .dropdownContainer {
@@ -173,33 +184,6 @@ img {
 .lang-drop-container {
   font-weight: 600;
   font-size: 15px;
-}
-
-.dropdownList {
-  display: none;
-  font-weight: 500;
-  width: max-content;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.9);
-  color: #000;
-  font-size: 15px;
-  position: absolute;
-  right: -13px;
-  z-index: 100;
-  margin-left: -0.75rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  border-radius: 0.5rem;
-  margin-top: 0.5rem;
-  opacity: 1;
-  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 10px 15px -3px rgba(17, 17, 17, 0.7),
-    0 4px 6px -4px rgba(34, 34, 34, 0.7);
 }
 
 .drop-down-element {
@@ -229,6 +213,7 @@ img {
   min-width: 26px;
   margin-left: auto;
   height: 18px;
+  position: relative;
 }
 
 .drop-down-image {
@@ -255,11 +240,6 @@ img {
   height: 33px;
 }
 
-.flag-name,
-.pc-menu-items {
-  vertical-align: bottom;
-  color: white;
-}
 .collectionitem {
   font-weight: 500;
   font-size: 15px;
@@ -299,10 +279,14 @@ img {
   border-radius: 3px;
 }
 
+.collectionSpan {
+  font-weight: 600;
+}
+
 @media (min-width: 900px) {
   .collectionitem,
   .dropdownList,
-  .menu-drop-down-item,
+  .drop-down-item,
   .language-name {
     font-size: 18px;
   }
@@ -311,7 +295,7 @@ img {
 @media (min-width: 1000px) and (max-width: 1269px) and (orientation: landscape) {
   .collectionitem,
   .dropdownList,
-  .menu-drop-down-item,
+  .drop-down-item,
   .language-name {
     font-size: 16px;
   }
@@ -325,9 +309,9 @@ img {
 
 @media (max-width: 1269px) {
   .drop-down {
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 19rem;
-    height: 0px;
+    height: auto;
     background-color: white;
     opacity: 1;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -337,7 +321,19 @@ img {
 
 @media (max-width: 1269px) {
   .language-dropdown {
-    display: block;
+    display: block; /* already done */
+    position: relative; /* ensure dropdown absolute positions relative to it */
+  }
+
+  /* Hide only logo and pc-menu, not lang-drop */
+  .logo,
+  .pc-menu {
+    display: none;
+  }
+
+  .lang-drop {
+    display: block; /* override previous hide */
+    overflow: visible; /* allow dropdown to overflow */
   }
 }
 
@@ -358,8 +354,17 @@ img {
 @media (min-width: 1270px) and (max-width: 1389px) and (orientation: landscape) {
   .collectionitem,
   .dropdownList,
-  .menu-drop-down-item,
+  .drop-down-item,
   .language-name {
     font-size: 15px;
+  }
+}
+
+@media (min-width: 1590px) and (max-width: 1909px) and (orientation: landscape) {
+  .collectionitem,
+  .dropdownList,
+  .drop-down-item,
+  .language-name {
+    font-size: 17px;
   }
 }

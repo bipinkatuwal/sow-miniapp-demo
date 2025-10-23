@@ -34,7 +34,10 @@ export const getTranslations = async (req, res) => {
     // read and parse JSON file
     const translations = JSON.parse(readFileSync(filePath, "utf-8"));
 
-    res.json(translations);
+    res.json({
+      language: lang,
+      translations,
+    });
   } catch (error) {
     console.error("Get translations error:", error);
     return res.status(500).json({

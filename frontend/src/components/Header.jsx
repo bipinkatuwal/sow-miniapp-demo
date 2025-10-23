@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Header.css";
 import { Link } from 'react-router';
 import { IoIosMenu } from "react-icons/io";
+import { useLanguage } from '../context/TranslationContext';
 
 const Header = () => {
+    const { t, language, changeLanguage } = useLanguage();
+    const [lang, setLang] = useState('en');
+    const [openLangDropDown, setOpenLangDropDown] = useState(false);
+
+    useEffect(() => {
+        changeLanguage(lang)
+    }, [lang])
+
     return (
         <nav class='main-header'>
             <header class="header">
@@ -17,86 +26,72 @@ const Header = () => {
                         <IoIosMenu class='hamburger' />
                     </div>
                     <div class="navigation-bar">
-                        <div class="drop-down" style={{ height: 0 }}>
+                        <div class="drop-down">
                             <div class="drop-down-container">
                                 <a href="https://www.123fakturera.se/index.html" class='drop-down-item'>
-                                    <p class='collectionSpan'>Home</p>
+                                    <p class='collectionSpan collectionitem'>
+                                        {t('navigation').home}
+                                    </p>
                                 </a>
                                 <a href="https://www.123fakturera.se/bestall.html" class='drop-down-item'>
-                                    <p class='collectionSpan'>Order</p>
+                                    <p class='collectionSpan collectionItem'>
+                                        {t('navigation').order}
+                                    </p>
                                 </a>
                                 <a href="https://www.123fakturera.se/kunder.html" class='drop-down-item'>
-                                    <p class='collectionSpan'>Our customers</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation').our_customer}</p>
                                 </a>
                                 <a href="https://www.123fakturera.se/omoss.html" class='drop-down-item'>
-                                    <p class='collectionSpan'>About us</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation').about_us}</p>
                                 </a>
                                 <a href="https://www.123fakturera.se/kontaktaoss.html" class='drop-down-item'>
-                                    <p class='collectionSpan'>Contact us</p>
+                                    <p class='collectionSpan collectionItem'>{t('navigation').contact_us}</p>
                                 </a>
                             </div>
                         </div>
                         <div class="pc-menu">
                             <a href="https://www.123fakturera.se/index.html" class='pc-menu-items'>
-                                <p class='collectionitem'>Home</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation').home}</p>
                             </a>
                             <a href="https://www.123fakturera.se/bestall.html" class='pc-menu-items'>
-                                <p class='collectionitem'>Order</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation').order}</p>
                             </a>
 
                             <a href="https://www.123fakturera.se/kunder.html" class='pc-menu-items'>
-                                <p class='collectionitem'>Our customers</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation').our_customer}</p>
                             </a>
                             <a href="https://www.123fakturera.se/omoss.html" class='pc-menu-items'>
-                                <p class='collectionitem'>About us</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation').about_us}</p>
                             </a>
                             <a href="https://www.123fakturera.se/kontaktaoss.html" class='pc-menu-items'>
-                                <p class='collectionitem'>Contact us</p>
+                                <p class='collectionitem collectionSpan'>{t('navigation').contact_us}</p>
                             </a>
                             <a href="#" class='pc-menu-items language-pc-menu-items'>
                                 <div>
-                                    <div class="language-title-box">
-                                        <p class="language-name">English</p>
-                                        <img src="/assets/flag-gb.png" alt="English flag" class='flag-icon drop-down-image' />
+                                    <div onClick={() => {
+                                        setOpenLangDropDown(open => !open)
+                                    }} class="language-title-box">
+                                        <p class="language-name">{lang === "en" ? "English" : "Svenska"}</p>
+                                        <img src={
+                                            lang === "en" ? "/assets/flag-gb.png" : "/assets/flag-se.png"
+                                        } alt={lang === "en" ? "English flag" : "Svenska flag"} class='flag-icon drop-down-image' />
                                     </div>
                                 </div>
                             </a>
                         </div>
                         <div class="lang-drop">
-                            <div class="lang-drop-container">
-                                <div class="dropdownList" style={{ display: 'none' }}>
-                                    <div class="drop-down-element">
-                                        <div class="drop-down-lang-name">
-                                            Svenska
-                                        </div>
-                                        <div class="drop-down-image-div">
-                                            <img src="/assets/flag-se.png" alt="Svenska" class='drop-down-image' />
-                                        </div>
-                                    </div>
-                                    <div class="drop-down-element">
-                                        <div class="drop-down-lang-name">
-                                            English
-                                        </div>
-                                        <div class="drop-down-image-div">
-                                            <img src="/assets/flag-gb.png" alt="English" class='drop-down-image' />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="language-dropdown">
-                        <div>
-                            <div class="dropdownContainer" >
+                            {/* <div class="lang-drop-container">
                                 <div class="language-box">
                                     <p class='flag-name collectionitem'>English</p>
                                     <img src="/assets/flag-gb.png" alt="English" class='icon-flag-nav' />
                                 </div>
-                            </div>
-                            <div class="dropdownList" style={{
-                                display: 'none'
-                            }}>
-                                <div class="drop-down-element">
+                            </div> */}
+
+                            <div class="dropdownList" style={{ display: openLangDropDown ? "block" : "none" }}>
+                                <div onClick={() => {
+                                    setLang('sv')
+                                    setOpenLangDropDown(false);
+                                }} class="drop-down-element">
                                     <div class="drop-down-lang-name">
                                         Svenska
                                     </div>
@@ -104,13 +99,53 @@ const Header = () => {
                                         <img src="/assets/flag-se.png" alt="Svenska" class='drop-down-image' />
                                     </div>
                                 </div>
-                                <div class="drop-down-element">
+                                <div onClick={() => {
+                                    setLang('en');
+                                    setOpenLangDropDown(false);
+                                }} class="drop-down-element">
                                     <div class="drop-down-lang-name">
                                         English
                                     </div>
                                     <div class="drop-down-image-div">
                                         <img src="/assets/flag-gb.png" alt="English" class='drop-down-image' />
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="language-dropdown">
+                        <div onClick={() => {
+                            setOpenLangDropDown(open => !open)
+                        }} class="dropdownContainer" >
+                            <div class="language-box">
+                                <p class='flag-name collectionitem'>
+                                    {lang === "en" ? "English" : "Svenska"}
+                                </p>
+                                <img src={lang === "en" ? "/assets/flag-gb.png" : "/assets/flag-se.png"
+                                } alt={lang === "en" ? "English flag" : "Svenska flag"} class='icon-flag-nav' />
+                            </div>
+                        </div>
+                        <div class="dropdownList" style={{ display: openLangDropDown ? "block" : "none" }}>
+                            <div onClick={() => {
+                                setLang('sv')
+                                setOpenLangDropDown(false);
+                            }} class="drop-down-element">
+                                <div class="drop-down-lang-name">
+                                    Svenska
+                                </div>
+                                <div class="drop-down-image-div">
+                                    <img src="/assets/flag-se.png" alt="Svenska" class='drop-down-image' />
+                                </div>
+                            </div>
+                            <div onClick={() => {
+                                setLang('en');
+                                setOpenLangDropDown(false);
+                            }} class="drop-down-element">
+                                <div class="drop-down-lang-name">
+                                    English
+                                </div>
+                                <div class="drop-down-image-div">
+                                    <img src="/assets/flag-gb.png" alt="English" class='drop-down-image' />
                                 </div>
                             </div>
                         </div>
