@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem("user", JSON.stringify(data.user))
                 localStorage.setItem("token", data.token)
 
-                navigate("/products")
+                navigate("/pricelist")
             } else {
                 setError(data.message);
                 throw new Error("Login failed");
@@ -64,8 +64,10 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("token")
     }
 
+    const isAuthenticated = !!user;
+
     return (
-        <AuthContext.Provider value={{ login, logout, loading, error, token, user }}>
+        <AuthContext.Provider value={{ login, logout, loading, error, token, user, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     )

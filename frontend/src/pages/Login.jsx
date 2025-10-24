@@ -17,6 +17,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
     function handleLoginForm(e) {
         e.preventDefault()
@@ -30,6 +31,9 @@ const Login = () => {
         }
 
         login(email, password);
+
+        setEmail("");
+        setPassword("");
     }
 
     return (
@@ -66,18 +70,24 @@ const Login = () => {
                                     </div>
                                     <div class="password-input-div">
                                         <input
-                                            class="login-input" type="password" id="password"
+                                            class="login-input" type={showPassword ? "text" : "password"} id="password"
                                             required={true}
                                             name="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             placeholder={t('login.password')} />
-                                        <img id="show-password-img" src="/assets/show_password.png" alt="" />
+                                        <img onClick={() => setShowPassword(show => !show)} id="show-password-img" src="/assets/show_password.png" alt="Password toggler" />
                                     </div>
                                 </div>
                                 {
                                     passwordError && <span class="password-error-span error-span">
                                         {passwordError}
+                                    </span>
+                                }
+
+                                {
+                                    error && <span class="password-error-span error-span error">
+                                        {error}
                                     </span>
                                 }
                                 <section class="invalid-credentials"></section>
