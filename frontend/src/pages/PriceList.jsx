@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearch, IoToggle, IoSettingsSharp, IoJournal, IoLogOut } from "react-icons/io5";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { IoMdPrint } from "react-icons/io";
@@ -16,58 +16,27 @@ import { useAuth } from '../context/AuthContext';
 const PriceList = () => {
     const { logout } = useAuth();
 
-    const [products] = useState([
-        {
-            id: 1,
-            articleNumber: 'ART-001',
-            productService: 'Professional Consulting',
-            priceIn: 'USD',
-            price: '150.00',
-            unit: 'Hour',
-            inStock: 'Yes',
-            description: 'Expert consulting services for business development'
-        },
-        {
-            id: 2,
-            articleNumber: 'ART-002',
-            productService: 'Web Development',
-            priceIn: 'USD',
-            price: '2500.00',
-            unit: 'Project',
-            inStock: 'Yes',
-            description: 'Complete website development with responsive design'
-        },
-        {
-            id: 3,
-            articleNumber: 'ART-003',
-            productService: 'Mobile App Design',
-            priceIn: 'USD',
-            price: '3000.00',
-            unit: 'Project',
-            inStock: 'No',
-            description: 'UI/UX design for iOS and Android applications'
-        },
-        {
-            id: 4,
-            articleNumber: 'ART-004',
-            productService: 'SEO Optimization',
-            priceIn: 'USD',
-            price: '500.00',
-            unit: 'Month',
-            inStock: 'Yes',
-            description: 'Search engine optimization and content strategy'
-        },
-        {
-            id: 5,
-            articleNumber: 'ART-005',
-            productService: 'Cloud Hosting',
-            priceIn: 'USD',
-            price: '50.00',
-            unit: 'Month',
-            inStock: 'Yes',
-            description: 'Reliable cloud hosting with 99.9% uptime'
-        }
-    ]);
+    const [products, setProducts] = useState([]);
+
+    console.log(products)
+
+    useEffect(() => {
+        fetchProducts()
+    }, [])
+
+    async function fetchProducts() {
+        const token = localStorage.getItem('token')
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await res.json();
+
+        setProducts(data);
+    }
 
     return (
         <>
@@ -144,9 +113,9 @@ const PriceList = () => {
                             <a href="#import_export" className="nav-item">
                                 <MdCloudDownload size={20} className='nav-item-icon' />
                                 Import/Export</a>
-                            <button onClick={() => logout()} className="nav-item">
+                            <span onClick={() => logout()} className="nav-item">
                                 <IoLogOut size={24} className='nav-item-icon' />
-                                Logout</button>
+                                Logout</span>
                         </nav>
                     </aside>
 
@@ -213,18 +182,18 @@ const PriceList = () => {
                                     {products.map((product) => (
                                         <tr key={product.id}>
                                             <td className="hide-mobile article" data-label="Article Number">
-                                                {product.articleNumber}
+                                                {product.id}
                                             </td>
-                                            <td className='product-service' data-label="Product/Service">{product.productService}</td>
+                                            <td className='product-service' data-label="Product/Service">{product.productName}</td>
                                             <td className="hide-mobile-landscape hide-tablet price-in" data-label="Price In">
-                                                {product.priceIn}
+                                                {product.inPrice}
                                             </td>
                                             <td className='price' data-label="Price">${product.price}</td>
                                             <td className="hide-mobile-landscape unit" data-label="Unit">
                                                 {product.unit}
                                             </td>
                                             <td className="hide-mobile in-stock-td" data-label="In Stock">
-                                                10000
+                                                {product.inStock}
                                             </td>
                                             <td className="hide-mobile hide-tablet description" data-label="Description">
                                                 {product.description}

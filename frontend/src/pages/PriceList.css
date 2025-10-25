@@ -2,23 +2,29 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", sans-serif;
   background: #ffffff;
-  overflow-x: hidden;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* Use a fixed viewport-height to make internal flex children size correctly
+     and allow the table area to scroll independently. */
+  height: 100vh;
 }
 
 .content-wrapper {
+  overflow: hidden;
   display: flex;
   flex: 1;
+  /* allow children (especially .main-content and .table-container) to
+     shrink and scroll correctly inside this flex context */
+  min-height: 0;
 }
 
 /* Sidebar - Desktop Only */
 .sidebar {
   width: 220px;
+  flex: 0 0 220px; /* keep fixed width and prevent sidebar from shrinking/growing */
   background: #f8f9fa;
   border-right: 1px solid #e0e0e0;
   display: none;
@@ -76,6 +82,8 @@ body {
   flex-direction: column;
   width: 100%;
   padding: 0px 1.4rem;
+  /* allow internal children to scroll correctly */
+  min-height: 0;
 }
 
 /* Header */
@@ -204,6 +212,7 @@ body {
   flex-direction: column;
   gap: 15px;
   margin: 25px 0;
+  flex: 0 0 auto; /* don't let actions grow/shrink when table scrolls */
 }
 
 .search-group {
@@ -293,13 +302,18 @@ body {
 
 /* Table */
 .table-container {
-  overflow-x: auto;
+  /* make table area take remaining vertical space and scroll internally */
+  flex: 1 1 auto;
+  overflow: auto; /* scroll only the table area */
   width: 100%;
   background: white;
 }
 
 .products-table {
-  width: 100%;
+  /* let table determine its width; min-width:100% ensures it never shrinks below container
+     and allows horizontal scrolling inside .table-container when content is wide */
+  width: max-content;
+  min-width: 100%;
   border-collapse: separate;
   border-spacing: 8px 5px;
 }

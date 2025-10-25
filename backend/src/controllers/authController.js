@@ -54,6 +54,7 @@ export const login = async (req, res) => {
       success: true,
       token,
       user: {
+        userId: user.id,
         email: user.email,
       },
     });

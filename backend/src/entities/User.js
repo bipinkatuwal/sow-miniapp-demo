@@ -31,4 +31,12 @@ export const User = new EntitySchema({
       updateDate: true,
     },
   },
+
+  relations: {
+    products: {
+      type: "one-to-many",
+      target: "Product",
+      inverseSide: "user",
+    },
+  },
 });
