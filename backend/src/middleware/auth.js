@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = async (req, res, next) => {
+  // Skip auth check for OPTIONS requests
+  if (req.method === "OPTIONS") {
+    return next();
+  }
   try {
     // get token from header
     const authHeader = req.header("Authorization");
-
-    console.log(authHeader);
 
     if (!authHeader) {
       return res.status(401).json({
