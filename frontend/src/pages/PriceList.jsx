@@ -12,16 +12,27 @@ import { MdInventory2 } from "react-icons/md";
 import { MdCardMembership, MdCloudDownload } from "react-icons/md";
 import "./PriceList.css"
 import { useAuth } from '../context/AuthContext';
+import EditableCell from '../components/EditableCell';
+import { jwtDecode } from "jwt-decode"
+import toast, { Toaster } from 'react-hot-toast';
 
 const PriceList = () => {
     const { logout } = useAuth();
 
     const [products, setProducts] = useState([]);
 
-    console.log(products)
-
     useEffect(() => {
         fetchProducts()
+    }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            const decoded = jwtDecode(token);
+            if (decoded.exp * 1000 < Date.now()) {
+                logout();
+            }
+        }
     }, [])
 
     async function fetchProducts() {
@@ -29,17 +40,78 @@ const PriceList = () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "appilcation/json",
                 Authorization: `Bearer ${token}`
             }
         });
+        if (res.status === 401) {
+            logout();
+            return;
+        }
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch products');
+        }
         const data = await res.json();
 
         setProducts(data);
     }
 
+    const handleUpdate = async (id, field, newValue) => {
+        const token = localStorage.getItem('token')
+        // Store the original product before update
+        const originalProduct = products.find(p => p.id === id);
+
+        // Immediately update UI (optimistic update)
+        setProducts(prev => prev.map(p =>
+            p.id === id ? { ...p, [field]: newValue } : p
+        ));
+
+        try {
+
+            if (!field || !newValue) {
+                toast.error("Field can't be empty!");
+                throw new Error("Field can't be empty.")
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/products/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    [field]: newValue
+                })
+            });
+
+            const updated = await response.json();
+
+            if (!updated.success) {
+                toast.error(updated.message)
+                // Revert to original value on error
+                setProducts(prev => prev.map(p =>
+                    p.id === id ? originalProduct : p
+                ));
+                return;
+            }
+            const updatedProduct = updated.product ?? updated;
+            setProducts((prev) => (prev || []).map((p) => p.id === id ? updatedProduct : p))
+            toast.success(updated.message)
+
+        } catch (error) {
+            console.error(error.message);
+            // Revert to original value on error
+            setProducts(prev => prev.map(p =>
+                p.id === id ? originalProduct : p
+            ));
+            toast.error("Failed to update product");
+        }
+    }
+
     return (
         <>
+            <Toaster />
             <div className="app-container">
                 {/* Header - Full Width */}
                 <header className="header-price-list">
@@ -113,7 +185,7 @@ const PriceList = () => {
                             <a href="#import_export" className="nav-item">
                                 <MdCloudDownload size={20} className='nav-item-icon' />
                                 Import/Export</a>
-                            <span onClick={() => logout()} className="nav-item">
+                            <span onClick={() => logout()} className="nav-item logout">
                                 <IoLogOut size={24} className='nav-item-icon' />
                                 Logout</span>
                         </nav>
@@ -179,24 +251,61 @@ const PriceList = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {products.map((product) => (
+                                    {products?.map((product) => (
                                         <tr key={product.id}>
                                             <td className="hide-mobile article" data-label="Article Number">
                                                 {product.id}
                                             </td>
-                                            <td className='product-service' data-label="Product/Service">{product.productName}</td>
+                                            <td className='product-service' data-label="Product/Service">
+                                                <EditableCell
+                                                    value={product.productName}
+                                                    onSave={(v) => handleUpdate(product.id, "productName", v)}
+                                                /></td>
                                             <td className="hide-mobile-landscape hide-tablet price-in" data-label="Price In">
-                                                {product.inPrice}
+                                                <EditableCell
+                                                    value={product.inPrice}
+                                                    onSave={(v) => handleUpdate(product.id, "inPrice", v)}
+                                                />
                                             </td>
-                                            <td className='price' data-label="Price">${product.price}</td>
+                                            <td className='price' data-label="Price">
+                                                <EditableCell
+                                                    value={product.price}
+                                                    onSave={(v) => handleUpdate(
+                                                        product.id,
+                                                        "price",
+                                                        v
+                                                    )}
+                                                />
+                                            </td>
                                             <td className="hide-mobile-landscape unit" data-label="Unit">
-                                                {product.unit}
+                                                <EditableCell
+                                                    value={product.unit}
+                                                    onSave={(v) => handleUpdate(
+                                                        product.id,
+                                                        "unit",
+                                                        v
+                                                    )}
+                                                />
                                             </td>
                                             <td className="hide-mobile in-stock-td" data-label="In Stock">
-                                                {product.inStock}
+                                                <EditableCell
+                                                    value={product.inStock}
+                                                    onSave={(v) => handleUpdate(
+                                                        product.id,
+                                                        "inStock",
+                                                        v
+                                                    )}
+                                                />
                                             </td>
                                             <td className="hide-mobile hide-tablet description" data-label="Description">
-                                                {product.description}
+                                                <EditableCell
+                                                    value={product.description}
+                                                    onSave={(v) => handleUpdate(
+                                                        product.id,
+                                                        "description",
+                                                        v
+                                                    )}
+                                                />
                                             </td>
                                             <td data-label="Actions">
                                                 <button className="menu-dots">...</button>

@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode"
 
 
 const AuthContext = createContext(null);
@@ -10,13 +11,21 @@ export const AuthProvider = ({ children }) => {
         const savedUser = localStorage.getItem('user');
         return savedUser ? JSON.parse(savedUser) : null
     });
-    const [token, setToken] = useState(() => localStorage.getItem('token') || "");
+    const [token, setToken] = useState(() => {
+        const savedToken = localStorage.getItem('token');
+        // Only return token if it's a valid string
+        return (savedToken && savedToken !== "null") ? savedToken : "";
+    });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     async function login(email, password) {
         setLoading(true);
         setError(null);
+
+        // Clear any existing invalid token
+        localStorage.removeItem('token');
+        setToken("")
 
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
@@ -35,8 +44,7 @@ export const AuthProvider = ({ children }) => {
             }
 
 
-            if (data.success) {
-                console.log(data);
+            if (data.success && data.token) {
                 setError(null);
                 setUser(data.user)
                 setToken(data.token)
@@ -50,8 +58,8 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.error("Login error: ", error.message);
-            setLoading(false);
             setError(error.message);
+            setToken("");
         } finally {
             setLoading(false);
         }
@@ -60,11 +68,20 @@ export const AuthProvider = ({ children }) => {
     function logout() {
         setUser(null);
         setToken("");
-        localStorage.removeItem("user")
-        localStorage.removeItem("token")
+        localStorage.clear();
+        navigate('/login')
     }
 
     const isAuthenticated = !!user;
+
+    useEffect(() => {
+        if (token) {
+            const decoded = jwtDecode(token);
+            if (decoded.exp * 1000 < Date.now()) {
+                logout();
+            }
+        }
+    }, [token]);
 
     return (
         <AuthContext.Provider value={{ login, logout, loading, error, token, user, isAuthenticated }}>

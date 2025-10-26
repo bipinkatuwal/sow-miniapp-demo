@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import enTranslations from "../../locales/en.json";
+import { MoonLoader } from "react-spinners";
 
 const TranslationContext = createContext(null);
 
@@ -78,7 +79,9 @@ export const TranslationProvider = ({ children, defaultLanguage = "en" }) => {
 
   const t = (key) => translations[key] || key;
 
-  if (loading) return <p>Loading translations...</p>;
+  if (loading) return <div className="translation-background">
+    <MoonLoader color="#fff" speedMultiplier={.8} />
+  </div>
 
   return (
     <TranslationContext.Provider

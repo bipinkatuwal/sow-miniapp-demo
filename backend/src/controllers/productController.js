@@ -1,6 +1,5 @@
 import { AppDataSource } from "../config/database.js";
 import { Product } from "../entities/Product.js";
-import { User } from "../entities/User.js";
 
 const productRepository = AppDataSource.getRepository(Product);
 export const getProducts = async (req, res) => {
@@ -25,11 +24,15 @@ export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { productName, inPrice, inStock, price, description, unit } =
       req.body;
-    const user = req.user; // from middleware
+
+    const user = req.userId; // from middleware
 
     const product = await productRepository.findOne({
       where: {
-        id: parseInt(id),
+        id: id,
+        user: {
+          id: user,
+        },
       },
       relations: ["user"],
     });
@@ -47,10 +50,61 @@ export const updateProduct = async (req, res) => {
         message: "You are not allowed to update the product",
       });
 
+    if (productName !== undefined && typeof productName !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid productName. It must be a string.",
+      });
+    }
+
+    if (inPrice !== undefined) {
+      const parsedInPrice = parseFloat(inPrice);
+      if (isNaN(parsedInPrice) || parsedInPrice < 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid inPrice. It must be a positive number.",
+        });
+      }
+      product.inPrice = parsedInPrice;
+    }
+
+    if (price !== undefined) {
+      const parsedPrice = parseFloat(price);
+      if (isNaN(parsedPrice) || parsedPrice < 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid price. It must be a positive number.",
+        });
+      }
+      product.price = parsedPrice;
+    }
+
+    if (inStock !== undefined) {
+      const parsedStock = parseInt(inStock);
+      if (isNaN(parsedStock) || parsedStock < 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid inStock. It must be a non-negative integer.",
+        });
+      }
+      product.inStock = parsedStock;
+    }
+
+    if (description !== undefined && typeof description !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid description. It must be a string.",
+      });
+    }
+
+    if (unit !== undefined && typeof unit !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid unit. It must be a string.",
+      });
+    }
+
     if (productName !== undefined) product.productName = productName.trim();
-    if (inPrice !== undefined) product.inPrice = parseFloat(inPrice);
-    if (price !== undefined) product.price = parseFloat(price);
-    if (inStock !== undefined) product.inStock = parseInt(inStock);
     if (description !== undefined) product.description = description.trim();
     if (unit !== undefined) product.unit = unit.trim();
 

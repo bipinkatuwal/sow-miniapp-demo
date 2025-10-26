@@ -360,6 +360,15 @@ img {
   }
 }
 
+@media (min-width: 1390px) and (max-width: 1589px) and (orientation: landscape) {
+  .collectionitem,
+  .dropdownList,
+  .menu-drop-down-item,
+  .language-name {
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 1590px) and (max-width: 1909px) and (orientation: landscape) {
   .collectionitem,
   .dropdownList,

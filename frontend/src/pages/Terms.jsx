@@ -10,31 +10,31 @@ const Terms = () => {
     const { t } = useLanguage();
 
     return (
-        <div class='login-container'>
-            <div class="background-container">
+        <div className='login-container'>
+            <div className="background-container">
                 <img src="/assets/hero-image.jpg" alt="Background image" id='background-image' />
             </div>
             <Header />
-            <div class="content">
-                <section class="terms-section">
-                    <div class="terms-top-text">
-                        <h1 class="terms-heading">{t("terms.terms")}</h1>
-                        <button class="go-back-button" >
+            <div className="content">
+                <section className="terms-section">
+                    <div className="terms-top-text">
+                        <h1 className="terms-heading">{t("terms.terms")}</h1>
+                        <button className="go-back-button" >
                             <Link to={"/"}>
                                 {t("terms.close")}
                             </Link>
                         </button>
                     </div>
-                    <div class="back-terms">
+                    <div className="back-terms">
                         <p dangerouslySetInnerHTML={{ __html: t("terms.terms_text_1") }}></p>
 
                         <p>{t("terms.terms_text_2")}</p>
 
                         <p>{t("terms.terms_text_3")}</p>
 
-                        <p class="mt-6">{t("terms.terms_text_4")}
+                        <p className="mt-6">{t("terms.terms_text_4")}
                         </p>
-                        <p class="mb-6">{t("terms.terms_text_5")}</p>
+                        <p className="mb-6">{t("terms.terms_text_5")}</p>
 
                         <p>{t("terms.terms_text_6")}</p>
 
@@ -78,8 +78,8 @@ const Terms = () => {
 
                         <p>{t("terms.terms_text_24")}</p>
                     </div>
-                    <div class="terms-top-text">
-                        <button class="go-back-button" >
+                    <div className="terms-top-text">
+                        <button className="go-back-button" >
                             <Link to={"/"}>
                                 {t("terms.close")}
                             </Link>
